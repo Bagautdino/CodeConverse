@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/" 
+    schedule:
+      interval: "daily" 
+    commit-message:
+      prefix: "daily-deps"
+    pull-request-branch-name:
+      separator: "_"
+    auto-merge: false
+    target-branch: "master"
