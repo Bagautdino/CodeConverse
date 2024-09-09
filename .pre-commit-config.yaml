@@ -1,0 +1,10 @@
+repos:
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+        name: Run Gitleaks to check for secrets
+        entry: gitleaks detect --source . --no-git -v
+        language: docker_image
+        types: [files]
+        additional_dependencies: []
