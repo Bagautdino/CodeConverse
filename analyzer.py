@@ -25,8 +25,8 @@ class CodeAnalyzer:
                     {"role": "user", "content": content},
                 ],
                 model=model_token,
-                temperature=0.5,
-                max_tokens=2048,
+                temperature=0.1,
+                max_tokens=512,
                 top_p=1,
                 stream=False
             )
