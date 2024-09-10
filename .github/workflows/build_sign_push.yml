@@ -34,20 +34,18 @@ jobs:
 
       - name: Set up Docker Content Trust
         run: |
+          if [ -z "${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}" ] || [ -z "${{ secrets.DOCKERHUB_PASSWORD }}" ]; then
+            echo "Required secrets are not set. Exiting."
+            exit 1
+          fi
           export DOCKER_CONTENT_TRUST=1
+          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
           export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build Docker image
+      - name: Build and push Docker image with signing
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} .
-
-      - name: Push Docker image to Docker Hub
-        run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
-
-      - name: Sign Docker image
-        run: |
-          export DOCKER_CONTENT_TRUST=1
           docker trust sign ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
 
       - name: Log out from Docker Hub
