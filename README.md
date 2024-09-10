@@ -1,83 +1,100 @@
-# AI SAST ANALYZER
+# CodeConverse
 
-**Ai Sast Analyzer** — это инструмент для анализа исходного кода на предмет уязвимостей, c использованием API GROQ и предоставления краткого отчета об этом. Программа использует модели **Groq** для обработки содержимого файлов и генерации резюме потенциальных уязвимостей в формате HTML-отчета.
+<img src="./img/logo.png" alt="Logo" width="300" height="300" style="display:block; margin: 0 auto;">
 
-Программа поддерживает следующие типы исходных файлов:
-- `.py` (Python)
-- `.js` (JavaScript)
-- `.java` (Java)
-- `.cpp`, `.c` (C/C++)
-- `.cs` (C#)
-- `.ts` (TypeScript)
+**CodeConverse** is a cutting-edge code analysis tool that leverages the GROQ API to detect vulnerabilities and generate concise HTML reports. It supports a variety of programming languages and streamlines the vulnerability assessment process.
 
-Отчет генерируется в формате HTML, что позволяет легко просматривать результаты в любом браузере.
+## Supported File Types
 
+CodeConverse can analyze source code files in the following languages:
 
-### Настройка
+- Python: `.py`
+- JavaScript: `.js`
+- Java: `.java`
+- C/C++: `.cpp`, `.c`
+- C#: `.cs`
+- TypeScript: `.ts`
 
-Перед запуском программы убедитесь, что у вас настроена конфигурация для работы с API Groq. Все токены можно задать в файле `config.py`.
+## Reports
 
-Пример токенов в `config.py`:
+Generated reports are in HTML format for easy viewing in web browsers.
 
-```python
-tokens = [
-    'gemma2-9b-it',
-    'llama-3.1-70b-versatile',
-    'llama-3.1-8b-instant',
-    'llama-guard-3-8b',
-    'llama3-70b-8192',
-    'llama3-8b-8192',
-    'llama3-groq-70b-8192-tool-use-preview',
-    'llama3-groq-8b-8192-tool-use-preview',
-    'mixtral-8x7b-32768'
-]
-```
+## Configuration
 
-### Запуск
+Ensure that your API configuration is set up correctly before launching the program. API tokens should be defined in `config.py`.
 
-Пример базового запуска программы для анализа директории:
+### Example Configuration (`config.py`):
 
-```bash
-python main.py /path/to/source/code --output report.html --log-level INFO
-```
+    tokens = [
+        # List of API tokens
+    ]
 
-#### Аргументы командной строки:
+    GROQ_API_KEY = "GROQ_API_KEY"  # include via environment variables
 
-- `directory` — обязательный аргумент, указывающий на директорию с исходными файлами для анализа.
-- `--output` — имя выходного HTML файла. По умолчанию: `report.html`.
-- `--max-retries` — максимальное количество попыток при обращении к API. По умолчанию: `5`.
-- `--timeout` — таймаут для каждого API-запроса в секундах. По умолчанию: `20.0`.
-- `--log-level` — уровень логирования. Возможные значения: `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`. По умолчанию: `INFO`.
+## Getting Started
 
-#### Пример:
+### Prerequisites
 
-Анализ директории `src/` с логированием уровня `DEBUG` и сохранением отчета в файл `vulnerability_report.html`:
+- Python 3.x
+- Access to the GROQ API
 
-```bash
-python main.py src/ --output vulnerability_report.html --log-level DEBUG
-```
+### Local Installation
 
-## Логирование
+Clone the repository and install dependencies:
 
-Для удобства диагностики программа поддерживает логирование на разных уровнях детализации:
-- `DEBUG` — максимально подробная информация для отладки.
-- `INFO` — ключевые события и результаты.
-- `WARNING` — предупреждения о возможных проблемах.
-- `ERROR` — ошибки выполнения.
-- `CRITICAL` — критические ошибки.
+    git clone https://github.com/yourusername/CodeConverse.git
+    cd CodeConverse
+    pip install -r requirements.txt
 
-Все логи выводятся в стандартный вывод (консоль).
+### Docker Usage
 
-## Архитектура
+Create a job for GitHub Actions or GitLab CI using the Docker image:
 
-Программа использует модульную архитектуру, разделяя основные компоненты:
-- **Analyzer** — отвечает за обработку файлов и взаимодействие с API для получения результатов анализа.
-- **HTMLReport** — создает отчет в формате HTML, который содержит сводку по каждому проанализированному файлу.
-- **Config** — хранит конфигурационные данные, такие как токены для API.
+    ayvazbudapeshtov/ai-sast-tool:1.0.0
 
-Это позволяет легко расширять программу, добавляя новые функции или изменяя текущие.
+### Usage
 
-## Ограничения
+To start analyzing code:
 
-- Программа требует подключения к интернету для работы с API Groq.
-- Ограничения на размер кода в одном запросе — код разбивается на блоки по 5000 символов для отправки в API.
+    python main.py /path/to/source/code --output report.html --log-level INFO
+
+### Command-Line Arguments
+
+- `directory`: Path to the source code directory.
+- `--output`: Filename for the HTML report. Default is `report.html`.
+- `--max-retries`: Max attempts for API requests. Default is `5`.
+- `--timeout`: Timeout for API requests in seconds. Default is `20.0`.
+- `--log-level`: Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`). Default is `INFO`.
+
+### Example
+
+Analyze the `src/` directory with debug logging and save the report to `vulnerability_report.html`:
+
+    python main.py src/ --output vulnerability_report.html --log-level DEBUG
+
+## Logging
+
+CodeConverse supports multiple logging levels for detailed diagnostics:
+
+- `DEBUG`: Detailed debugging information.
+- `INFO`: Key events and results.
+- `WARNING`: Potential issues.
+- `ERROR`: Runtime errors.
+- `CRITICAL`: Critical issues.
+
+Logs are output to the console by default.
+
+## Architecture
+
+The program is modular, comprising:
+
+- **Analyzer**: Processes files and interfaces with the API.
+- **HTMLReport**: Generates HTML format reports.
+- **Config**: Manages configuration data.
+
+This modular design facilitates future expansions and modifications.
+
+## Limitations
+
+- Internet connection is required for API access.
+- There is a limit on the size of code per request; code is segmented into 5000-character blocks for API processing.

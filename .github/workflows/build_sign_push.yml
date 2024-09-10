@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - dev
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -15,15 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set branch-specific Docker image tag
+      - name: Set Docker image tag
         id: image_tag
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            echo "::set-output name=tag::master"
+            echo "::set-output name=tag::latest"
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
             echo "::set-output name=tag::dev"
+          elif [[ ${{ github.ref }} =~ refs/tags/v(.*) ]]; then
+            VERSION=${BASH_REMATCH[1]}
+            echo "::set-output name=tag::$VERSION"
           else
-            echo "::set-output name=tag::${{ github.sha }}"
+            echo "::set-output name=tag::commit-${{ github.sha }}"
           fi
 
       - name: Log in to Docker Hub
@@ -32,20 +37,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-#      - name: Set up Docker Content Trust
-#        run: |
-#          if [ -z "${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}" ] || [ -z "${{ secrets.DOCKERHUB_PASSWORD }}" ]; then
-#            echo "Required secrets are not set. Exiting."
-#            exit 1
-#          fi
-#          export DOCKER_CONTENT_TRUST=1
-#          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
-#          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: Build and push Docker image with signing
+      - name: Build and push Docker image
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
-#          docker trust sign ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} --passphrase $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE
       - name: Log out from Docker Hub
         run: docker logout
