@@ -1,5 +1,6 @@
 # CodeConverse
-<img src="./img/logo.png" alt="Logo" width="200" height="200" style="display:block; margin: 0 auto;">
+
+<img src="./img/logo.png" alt="Logo" width="300" height="300" style="display:block; margin: 0 auto;">
 
 **CodeConverse** is a cutting-edge code analysis tool that leverages the GROQ API to detect vulnerabilities and generate concise HTML reports. It supports a variety of programming languages and streamlines the vulnerability assessment process.
 
