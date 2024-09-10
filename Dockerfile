@@ -10,10 +10,6 @@ RUN pip install --upgrade pip
 
 WORKDIR /ai-sast-tool
 
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
 
 ENV PYTHONUNBUFFERED=1 \
@@ -29,3 +25,7 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 COPY --from=builder /ai-sast-tool /ai-sast-tool
 
 WORKDIR /ai-sast-tool
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
