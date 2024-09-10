@@ -22,6 +22,6 @@ ENV PYTHONUNBUFFERED=1 \
 FROM gcr.io/distroless/python3
 
 COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=builder /app /app
+COPY --from=builder /ai-sast-tool /ai-sast-tool
 
 WORKDIR /ai-sast-tool
