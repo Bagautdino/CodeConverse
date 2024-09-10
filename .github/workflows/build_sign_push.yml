@@ -46,7 +46,8 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
-          docker trust sign ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
+          docker trust sign ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} --passphrase $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE
+          
 
       - name: Log out from Docker Hub
         run: docker logout
