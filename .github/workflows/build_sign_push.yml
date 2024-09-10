@@ -32,22 +32,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Set up Docker Content Trust
-        run: |
-          if [ -z "${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}" ] || [ -z "${{ secrets.DOCKERHUB_PASSWORD }}" ]; then
-            echo "Required secrets are not set. Exiting."
-            exit 1
-          fi
-          export DOCKER_CONTENT_TRUST=1
-          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
-          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKERHUB_PASSWORD }}
+#      - name: Set up Docker Content Trust
+#        run: |
+#          if [ -z "${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}" ] || [ -z "${{ secrets.DOCKERHUB_PASSWORD }}" ]; then
+#            echo "Required secrets are not set. Exiting."
+#            exit 1
+#          fi
+#          export DOCKER_CONTENT_TRUST=1
+#          export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE=${{ secrets.DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE }}
+#          export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image with signing
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
-          docker trust sign ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} --passphrase $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE
-          
-
+#          docker trust sign ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} --passphrase $DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE
       - name: Log out from Docker Hub
         run: docker logout
