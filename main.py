@@ -7,7 +7,7 @@ from config import GROQ_API_KEY
 def main():
     parser = argparse.ArgumentParser(description="Analyze source code files for vulnerabilities.")
     parser.add_argument('directory', type=str, help="Directory to analyze")
-    parser.add_argument('--output', type=str, default='code_converse.html', help="Output HTML file for the report")
+    parser.add_argument('--output', type=str, default='report.html', help="Output HTML file for the report")
     parser.add_argument('--max-retries', type=int, default=5, help="Max retries for API requests")
     parser.add_argument('--timeout', type=float, default=20.0, help="Timeout for API requests")
     parser.add_argument('--log-level', type=str, default='INFO',
