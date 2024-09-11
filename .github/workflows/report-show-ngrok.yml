@@ -1,0 +1,34 @@
+name: Serve HTML with ngrok
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  serve-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Ngrok
+        run: |
+          curl -s https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz > ngrok.zip
+          unzip ngrok.zip
+          sudo mv ngrok /usr/local/bin
+          rm ngrok.zip
+
+      - name: Start HTTP server and ngrok
+        run: |
+          nohup python3 -m http.server 8080 &
+          sleep 5  
+          ngrok http 8080 > ngrok.log & 
+          sleep 5 
+          curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url' > ngrok_url.txt
+
+      - name: Output ngrok URL
+        run: |
+          echo "Ngrok URL: $(cat ngrok_url.txt)"
