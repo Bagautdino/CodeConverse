@@ -35,12 +35,16 @@ jobs:
       with:
         name: report
         path: ./
-    - name: Install Docker Compose
+    - name: Run Nginx server
       run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/2.29.2/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-    - name: Set up Docker Compose
+        docker run -d --name nginx -v ${{ github.workspace }}:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine
+    - name: Start ngrok
       run: |
-        docker-compose up -d
+        docker run -d --name ngrok -p 4040:4040 --link nginx ngrok/ngrok http nginx:80 -authtoken ${{ secrets.NGROK_AUTHTOKEN }}
+    - name: Fetch ngrok URL
+      run: |
+        sleep 10
+        NGROK_URL=$(docker logs ngrok | grep -o 'http://[^ ]*')
+        echo "Ngrok URL: $NGROK_URL"
     - name: Sleep to keep server alive
-      run: sleep 3600  # Keeps the server running for 1 hour
+      run: sleep 60  # Keeps the server running for 1 hour
