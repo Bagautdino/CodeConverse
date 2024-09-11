@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./report.html:/usr/share/nginx/html/report.html
+    ports:
+      - "8080:80"
+  ngrok:
+    image: ngrok/ngrok
+    depends_on:
+      - web
+    command: http web:80
+    environment:
+      - NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }}
