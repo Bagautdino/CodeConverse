@@ -35,12 +35,20 @@ jobs:
       with:
         name: report
         path: ./
-    - name: Start HTTP server and ngrok
+
+    - name: Run container
       run: |
-        # Start httpd server and mount the current directory to serve your HTML file
-        docker run -d --name httpd-server -v ${{ github.workspace }}:/usr/local/apache2/htdocs/ httpd:2.4
-        # Start ngrok
-        docker run -d --name ngrok --link httpd-server -p 4040:4040 wernight/ngrok ngrok http httpd-server:80
-    - name: Wait for ngrok
-      run: |
-        timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:4040)" != "200" ]]; do sleep 5; done'
+        echo "FROM nginx:alpine
+        COPY ./report.html /usr/share/nginx/html/index.html
+        " > Dockerfile
+        docker build -t simple-nginx .
+        docker run -d --name nginx -p 8080:80 simple-nginx
+
+    - name: Expose Ngrok Tunnel
+      uses: LuisBoto/ngrok-tunnel-action@v0.1.7.2
+      with:
+        timeout: 1h
+        port: 8080
+        ngrok_authtoken: ${{ secrets.NGROK_AUTHTOKEN }}
+        tunnel_type: http
+        save_url_to_filename: tunnelURL.md
