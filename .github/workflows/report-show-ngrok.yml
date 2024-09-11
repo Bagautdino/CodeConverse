@@ -1,34 +1,44 @@
-name: Serve HTML with ngrok
+name: Deploy HTML with ngrok
 
 on:
-  push:
+  workflow_dispatch: # запуск вручную
+  push: # запуск при пуше изменений в ветку main
     branches:
-      - master
-      - dev
+      - main
 
 jobs:
-  serve-html:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Install Ngrok
-        run: |
-          curl -s https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz > ngrok.zip
-          unzip ngrok.zip
-          sudo mv ngrok /usr/local/bin
-          rm ngrok.zip
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      - name: Start HTTP server and ngrok
+      - name: Install HTTP server and ngrok
         run: |
-          nohup python3 -m http.server 8080 &
-          sleep 5  
-          ngrok http 8080 > ngrok.log & 
-          sleep 5 
-          curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url' > ngrok_url.txt
+          pip install http.server
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc > /dev/null
+          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+          sudo apt update && sudo apt install ngrok
+
+      - name: Start HTTP server
+        run: |
+          cd ./path-to-your-html-file
+          python3 -m http.server 8080 &
+
+      - name: Start ngrok and get public URL
+        run: |
+          ngrok http 8080 > /dev/null &
+          sleep 5
+          curl --silent http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url
 
       - name: Output ngrok URL
         run: |
-          echo "Ngrok URL: $(cat ngrok_url.txt)"
+          URL=$(curl --silent http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          echo "NGROK_URL=${URL}" >> $GITHUB_ENV
+          echo "Your HTML file is available at: ${URL}"
