@@ -42,6 +42,6 @@ jobs:
       run: |
         docker run -d --name ngrok -p 4040:4040 --link nginx -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTH_TOKEN }} ngrok/ngrok http --domain=snake-capable-roughy.ngrok-free.app nginx:80
     - name: Code Analysis URL
-        echo "https://snake-capable-roughy.ngrok-free.app/report.html"
+      run: echo "https://snake-capable-roughy.ngrok-free.app/report.html"
     - name: Sleep to keep server alive
       run: sleep 60
