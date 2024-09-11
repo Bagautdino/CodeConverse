@@ -36,19 +36,11 @@ jobs:
         name: report
         path: ./
 
-    - name: Run container
+    - name: Set up Python HTTP Server and ngrok
       run: |
-        echo "FROM nginx:alpine
-        COPY ./report.html /usr/share/nginx/html/index.html
-        " > Dockerfile
-        docker build -t simple-nginx .
-        docker run -d --name nginx -p 8080:80 simple-nginx
-
-    - name: Expose Ngrok Tunnel
-      uses: LuisBoto/ngrok-tunnel-action@v0.1.7.2
-      with:
-        timeout: 1h
-        port: 8080
-        ngrok_authtoken: ${{ secrets.NGROK_AUTHTOKEN }}
-        tunnel_type: http
-        save_url_to_filename: tunnelURL.md
+        # Start the HTTP server
+        python3 -m http.server 80 &
+        # Start ngrok
+        docker run -it -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }} ngrok/ngrok http --domain=snake-capable-roughy.ngrok-free.app 80
+    - name: Sleep to keep server alive
+      run: sleep 3600
