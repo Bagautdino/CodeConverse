@@ -39,8 +39,8 @@ jobs:
     - name: Set up Python HTTP Server and ngrok
       run: |
         # Start the HTTP server
-        python3 -m http.server 80 &
+        python3 -m http.server 8080 &
         # Start ngrok
-        docker run -it -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }} ngrok/ngrok http --domain=snake-capable-roughy.ngrok-free.app 80
+        docker run -it -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }} ngrok/ngrok http --domain=snake-capable-roughy.ngrok-free.app 8080
     - name: Sleep to keep server alive
       run: sleep 3600
