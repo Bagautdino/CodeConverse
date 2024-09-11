@@ -20,11 +20,11 @@ jobs:
       run: python3.12 main.py .
       env:
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-    - name: Upload juice-shop.html
+    - name: Upload report.html
       uses: actions/upload-artifact@v4
       with:
           name: report
-          path: code_converse.html
+          path: report.html
 
   ngrok-up:
     needs: scan
@@ -35,9 +35,11 @@ jobs:
       with:
         name: report
         path: ./
-    - name: Start ngrok
+    - name: Start ngrok and HTTP server
       run: |
-        docker run -d --name ngrok -p 4040:4040 -p 80:80 ngrok/ngrok http -authtoken ${{ secrets.NGROK_AUTH_TOKEN }} --region=eu --domain=snake-capable-roughy.ngrok-free.app 80
+        # Start a simple HTTP server and expose it via ngrok
+        docker run -d --name simple-http-server -v ${{ github.workspace }}:/www -p 80:80 trinitronx/python-simplehttpserver
+        docker run -d --name ngrok -p 4040:4040 --link simple-http-server ngrok/ngrok http -authtoken ${{ secrets.NGROK_AUTH_TOKEN }} simple-http-server:80
     - name: Wait for ngrok
       run: |
-        timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' snake-capable-roughy.ngrok-free.app)" != "200" ]]; do sleep 5; done'
+        timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:4040)" != "200" ]]; do sleep 5; done'
