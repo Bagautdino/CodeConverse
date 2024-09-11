@@ -40,7 +40,7 @@ jobs:
         docker run -d --name nginx -v ${{ github.workspace }}:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine
     - name: Start ngrok
       run: |
-        docker run -d --name ngrok -p 4040:4040 --link nginx ngrok/ngrok http nginx:80 -authtoken ${{ secrets.NGROK_AUTHTOKEN }}
+        docker run -d --name ngrok -p 4040:4040 --link nginx ngrok/ngrok http nginx:80 -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }}
     - name: Fetch ngrok URL
       run: |
         sleep 10
