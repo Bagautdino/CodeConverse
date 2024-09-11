@@ -35,11 +35,12 @@ jobs:
       with:
         name: report
         path: ./
-    - name: Start ngrok and HTTP server
+    - name: Start HTTP server and ngrok
       run: |
-        # Start a simple HTTP server and expose it via ngrok
-        docker run -d --name simple-http-server -v ${{ github.workspace }}:/www -p 80:80 trinitronx/python-simplehttpserver
-        docker run -d --name ngrok -p 4040:4040 --link simple-http-server ngrok/ngrok http -authtoken ${{ secrets.NGROK_AUTH_TOKEN }} simple-http-server:80
+        # Start httpd server and mount the current directory to serve your HTML file
+        docker run -d --name httpd-server -v ${{ github.workspace }}:/usr/local/apache2/htdocs/ httpd:2.4
+        # Start ngrok
+        docker run -d --name ngrok --link httpd-server -p 4040:4040 wernight/ngrok ngrok http httpd-server:80
     - name: Wait for ngrok
       run: |
         timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:4040)" != "200" ]]; do sleep 5; done'
