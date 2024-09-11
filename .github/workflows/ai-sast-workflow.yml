@@ -37,4 +37,7 @@ jobs:
         path: ./
     - name: Start ngrok
       run: |
-        docker run -d --name ngrok -p 4040:4040 -p 80:80 ngrok/ngrok http -authtoken ${{ secrets.NGROK_AUTH_TOKEN }} 80
+        docker run -d --name ngrok -p 4040:4040 -p 80:80 ngrok/ngrok http -authtoken ${{ secrets.NGROK_AUTH_TOKEN }} --region=eu --domain=snake-capable-roughy.ngrok-free.app 80
+    - name: Wait for ngrok
+      run: |
+        timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' snake-capable-roughy.ngrok-free.app)" != "200" ]]; do sleep 5; done'
