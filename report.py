@@ -1,5 +1,4 @@
 import logging
-from config import GROQ_API_KEY
 
 class HTMLReport:
     def __init__(self, output_file):

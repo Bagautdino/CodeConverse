@@ -2,7 +2,6 @@ import logging
 import argparse
 from analyzer import CodeAnalyzer
 from report import HTMLReport
-from config import GROQ_API_KEY
 
 def main():
     parser = argparse.ArgumentParser(description="Analyze source code files for vulnerabilities.")
