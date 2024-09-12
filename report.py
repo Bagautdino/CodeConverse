@@ -1,4 +1,5 @@
 import logging
+import markdown2
 
 class HTMLReport:
     def __init__(self, output_file):
@@ -12,6 +13,7 @@ class HTMLReport:
         self.report_content = ""
 
     def add_file_summary(self, file_path, summary):
+        self.report_content += markdown2.markdown(self.template.format(file_path=file_path, summary=summary))
         self.report_content += f"<tr><td>{file_path}</td><td>{summary.replace('\n', '<br>')}</td></tr>"
 
     def finish_report(self):
