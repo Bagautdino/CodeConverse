@@ -8,5 +8,4 @@ updates:
       prefix: "daily-deps"
     pull-request-branch-name:
       separator: "_"
-    auto-merge: false
     target-branch: "master"

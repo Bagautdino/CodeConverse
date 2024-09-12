@@ -4,7 +4,6 @@ import logging
 from itertools import cycle
 from groq import Groq
 from config import tokens
-from config import GROQ_API_KEY
 
 class CodeAnalyzer:
     def __init__(self, directory, max_retries=5, timeout=20.0):
