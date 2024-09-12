@@ -14,12 +14,10 @@ class HTMLReport:
 
     def add_file_summary(self, file_path, summary):
         formatted_summary = markdown2.markdown(summary)
-
-        self.report_content += self.template.format(file_path=file_path, summary=formatted_summary)
         self.report_content += f"<tr><td>{file_path}</td><td>{formatted_summary.replace('\n', '<br>')}</td></tr>"
 
     def finish_report(self):
-        final_report = self.template.replace('{{ rows }}', self.report_content)
+        final_report = self.template.replace('{rows}', self.report_content)
         with open(self.output_file, 'w', encoding='utf-8') as f:
             f.write(final_report)
         logging.info(f"HTML report saved to {self.output_file}")
