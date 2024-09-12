@@ -10,7 +10,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     container:
-      image: ayvazbudapeshtov/ai-sast-tool:1.0.0
+      image: ayvazbudapeshtov/ai-sast-tool:dev
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
