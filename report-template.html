@@ -25,6 +25,7 @@
         th, td {
             padding: 0;
             text-align: left;
+            vertical-align: top;  /* Ensure content aligns to the top */
         }
         th {
             background-color: #f10c0c;
@@ -36,6 +37,16 @@
         }
         tr:hover {
             background-color: #bdc3c7;
+        }
+        /* Reset margins and padding for elements inside table cells */
+        td p, td ul, td ol, td h1, td h2, td h3, td h4, td h5, td h6 {
+            margin: 0;
+            padding: 0;
+        }
+        /* Optional: Adjust list styles */
+        td ul, td ol {
+            list-style-position: inside;
+            padding-left: 0;
         }
     </style>
 </head>
@@ -49,9 +60,13 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Начало строк таблицы -->
-            {rows}  <!-- Здесь добавляйте строки -->
-            <!-- Конец строк таблицы -->
+            <!-- Start of table rows -->
+            <tr>
+                <td colspan="2">
+                    {rows}  <!-- Insert the converted HTML content here -->
+                </td>
+            </tr>
+            <!-- End of table rows -->
         </tbody>
     </table>
 </body>
