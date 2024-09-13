@@ -13,8 +13,12 @@ class HTMLReport:
         self.report_content = ""
 
     def add_file_summary(self, file_path, summary):
+        # Remove leading/trailing whitespace from each line
+        summary = '\n'.join(line.strip() for line in summary.strip().split('\n'))
+        # Convert markdown to HTML
         formatted_summary = markdown2.markdown(summary)
-        self.report_content += f"<tr><td>{file_path}</td><td>{formatted_summary.replace('\n', '<br>')}</td></tr>"
+        # Add to report content without replacing newlines
+        self.report_content += f"<tr><td>{file_path}</td><td>{formatted_summary}</td></tr>"
 
     def finish_report(self):
         final_report = self.template.replace('{rows}', self.report_content)
