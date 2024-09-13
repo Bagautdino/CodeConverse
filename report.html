@@ -1,0 +1,218 @@
+<html>
+<head>
+    <title>CodeConvense Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff; /* Changed to white */
+            margin: 0;
+            padding: 0;
+            color: #000000; /* Changed text color to black */
+        }
+        h1 {
+            color: #333333; /* Dark gray for better contrast */
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            background-color: #ffffff; /* Ensures table background is white */
+        }
+        th, td {
+            padding: 10px; /* Added some padding for better readability */
+            text-align: left;
+            vertical-align: top;  /* Ensure content aligns to the top */
+        }
+        th {
+            background-color: #f0f0f0; /* Light gray background */
+            color: #000000; /* Black text */
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light gray for alternating rows */
+        }
+        /* Removed the hover effect */
+        /* tr:hover {
+            background-color: #bdc3c7;
+        } */
+        /* Reset margins and padding for elements inside table cells */
+        td p, td ul, td ol, td h1, td h2, td h3, td h4, td h5, td h6 {
+            margin: 0;
+            padding: 0;
+        }
+        /* Optional: Adjust list styles */
+        td ul, td ol {
+            list-style-position: inside;
+            padding-left: 20px; /* Adjusted padding for list indentation */
+        }
+    </style>
+</head>
+<body>
+    <h1>Report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Start of table rows -->
+            <tr>
+                <td colspan="2">
+                    <tr><td>./main.py</td><td><p>{
+"issues": [
+{
+"severity": "LOW",
+"description": "Unnecessary code duplication: The 'main' function is called twice.",
+"line": 19
+}
+]
+}</p>
+</td></tr><tr><td>./tests/__init__.py</td><td><p>{
+"issues": [
+{
+"severity": "INFO",
+"description": "No code provided for analysis.",
+"line": null
+}
+]
+}</p>
+</td></tr><tr><td>./tests/test_code_analyzer.py</td><td><p>{
+"issues": [
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: Mocking the Groq client without proper validation can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: Mocking the os.walk function without proper validation can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: Mocking the read<em>file method without proper validation can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: Mocking the process</em>code method without proper validation can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The model<em>token is hardcoded and not validated, which can lead to security issues.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The file</em>path is hardcoded and not validated, which can lead to security issues.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The content is hardcoded and not validated, which can lead to security issues.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The directory is hardcoded and not validated, which can lead to security issues.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The html<em>report is mocked without proper validation, which can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The mock</em>client is not properly validated, which can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The mock<em>response is not properly validated, which can lead to unexpected behavior.",
+"line": 0
+},
+{
+"severity": "MEDIUM",
+"description": "Potential security risk: The mock</em>groq is not properly validated, which</p>
+</td></tr><tr><td>./analyzer/config.py</td><td><p>safe</p>
+</td></tr><tr><td>./analyzer/analyzer.py</td><td><p>{
+"issues": [
+{
+"severity": "MEDIUM",
+"description": "Hardcoded token list in the code. This can lead to token exposure if the code is shared or accessed by unauthorized users.",
+"line": 14
+},
+{
+"severity": "INFO",
+"description": "The retry decorator does not handle exceptions that occur during the last attempt. It's recommended to handle exceptions even in the last attempt.",
+"line": 24
+},
+{
+"severity": "INFO",
+"description": "The process<em>code method does not handle exceptions that occur during the last attempt. It's recommended to handle exceptions even in the last attempt.",
+"line": 54
+},
+{
+"severity": "INFO",
+"description": "The analyze method does not handle exceptions that occur during file processing. It's recommended to handle exceptions even during file processing.",
+"line": 83
+}
+]
+}
+{
+"issues": [
+{
+"severity": "MEDIUM",
+"description": "Potential path traversal vulnerability. User-controlled input 'file</em>path' is used in a file open operation without proper validation.",
+"line": 10
+},
+{
+"severity": "MEDIUM",
+"description": "Potential path traversal vulnerability. User-controlled input 'file<em>path' is used in a file open operation without proper validation.",
+"line": 11
+},
+{
+"severity": "INFO",
+"description": "The function 'read</em>file' does not handle exceptions other than UnicodeDecodeError. It's recommended to handle other exceptions as well.",
+"line": 10
+}
+]
+}</p>
+</td></tr><tr><td>./analyzer/__init__.py</td><td><p>{
+"issues": []
+}</p>
+</td></tr><tr><td>./analyzer/report.py</td><td><p>{
+"issues": [
+{
+"severity": "HIGH",
+"description": "The file 'report-template.html' is read without proper validation, which could lead to template injection vulnerabilities.",
+"line": 9
+},
+{
+"severity": "MEDIUM",
+"description": "The file 'report-template.html' is assumed to exist in the current directory, which could lead to unexpected behavior if it does not exist.",
+"line": 9
+},
+{
+"severity": "INFO",
+"description": "The 'logging' module is used without specifying a log level, which could lead to unnecessary logging.",
+"line": 25
+}
+]
+}</p>
+</td></tr>  <!-- Insert the converted HTML content here -->
+                </td>
+            </tr>
+            <!-- End of table rows -->
+        </tbody>
+    </table>
+</body>
+</html>
