@@ -1,7 +1,7 @@
 import logging
 import argparse
-from analyzer import CodeAnalyzer
-from report import HTMLReport
+from analyzer.analyzer import CodeAnalyzer
+from analyzer.report import HTMLReport
 
 def main():
     parser = argparse.ArgumentParser(description="Analyze source code files for vulnerabilities.")
