@@ -3,7 +3,7 @@ import time
 import logging
 from itertools import cycle
 from groq import Groq
-from config import tokens
+from .config import tokens
 
 class CodeAnalyzer:
     def __init__(self, directory, max_retries=5, timeout=20.0):
