@@ -130,6 +130,9 @@ ENV/
 env.bak/
 venv.bak/
 
+
+code_analyzer.log
+
 *.pyc
 .DS_Store
 # Spyder project settings
