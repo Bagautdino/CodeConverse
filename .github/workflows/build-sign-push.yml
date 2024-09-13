@@ -12,6 +12,10 @@ jobs:
   build:
     name: Build, Tag, Push, and Sign Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -21,14 +25,14 @@ jobs:
         id: image_tag
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            echo "::set-output name=tag::latest"
+            echo "tag=latest" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "::set-output name=tag::dev"
-          elif [[ ${{ github.ref }} =~ refs/tags/v(.*) ]]; then
-            VERSION=${BASH_REMATCH[1]}
-            echo "::set-output name=tag::$VERSION"
+            echo "tag=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" =~ refs/tags/v(.*) ]]; then
+            VERSION=$(echo "${{ github.ref }}" | sed -E 's/refs\/tags\/v(.*)/\1/')
+            echo "tag=$VERSION" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=tag::commit-${{ github.sha }}"
+            echo "tag=commit-${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Log in to Docker Hub
@@ -37,9 +41,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Build and Push Docker image
+        id: build_and_push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.6.0
+        with:
+          cosign-release: 'v2.4.0'
+
+      - name: Sign Docker image with Cosign (keyless)
+        env:
+          COSIGN_EXPERIMENTAL: 'true'
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }} .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
+          cosign sign --yes ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool@${{ steps.build_and_push.outputs.digest }}
+
       - name: Log out from Docker Hub
         run: docker logout

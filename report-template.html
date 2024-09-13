@@ -1,21 +1,58 @@
 <html>
 <head>
-    <title>Code Analysis Report</title>
+    <title>CodeConvense Report</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Roboto', sans-serif; background-color: #ece0e0; margin: 0; padding: 20px; color: #333; }
-        h1 { color: #2a2a2a; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f10c0c; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 0;
+            text-align: left;
+        }
+        th {
+            background-color: #f10c0c;
+            color: #000000;
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background-color: #000000;
+        }
+        tr:hover {
+            background-color: #bdc3c7;
+        }
     </style>
 </head>
 <body>
-    <h1>Code Analysis Report</h1>
+    <h1>Report</h1>
     <table>
-        <tr><th>File</th><th>Summary</th></tr>
-        {rows}  <!-- Placeholder for rows -->
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Начало строк таблицы -->
+            {rows}  <!-- Здесь добавляйте строки -->
+            <!-- Конец строк таблицы -->
+        </tbody>
     </table>
 </body>
 </html>
