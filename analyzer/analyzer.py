@@ -8,6 +8,7 @@ from .config import tokens
 from typing import List
 from requests.exceptions import HTTPError, ConnectionError, Timeout
 import functools
+import json
 
 # Configure logging
 logging.basicConfig(
@@ -118,15 +119,15 @@ class CodeAnalyzer:
                     for content_chunk in contents:
                         start_time = time.time()
                         result = self.process_code(file_path, current_token, content_chunk)
-                        summaries.append(result)
-                        request_interval = time.time() - start_time
-                        time.sleep(max(0, request_interval - (time.time() - start_time)))
+                        try:
+                            issues = json.loads(result).get('issues', [])
+                        except json.JSONDecodeError:
+                            logging.error(f"Failed to parse JSON response for {file_path}")
+                            issues = []
+                        summaries.extend(issues)
 
-                    summary = "\n".join(summaries)
-                    logging.info(f"Summary for {file_path}: {summary}")
-                    logging.info("-" * 60)
-
-                    html_report.add_file_summary(file_path, summary)
+                    # Combine issues from all chunks
+                    html_report.add_file_summary(file_path, summaries)
 
     def read_file(self, file_path: str) -> str:
         try:

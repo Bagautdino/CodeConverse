@@ -15,10 +15,9 @@ def main():
     args = parser.parse_args()
     logging.getLogger().setLevel(args.log_level)
     html_report = HTMLReport(output_file=args.output)
-    html_report.start_report()
     analyzer = CodeAnalyzer(directory=args.directory, max_retries=args.max_retries, timeout=args.timeout)
     analyzer.analyze(html_report)
-    html_report.finish_report()
+    html_report.generate_report()
 
 
 if __name__ == "__main__":
