@@ -44,4 +44,4 @@ jobs:
     - name: Code Analysis URL
       run: echo "https://snake-capable-roughy.ngrok-free.app/report.html"
     - name: Sleep to keep server alive
-      run: sleep 600
+      run: sleep 150
