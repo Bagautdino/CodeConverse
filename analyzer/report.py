@@ -2,20 +2,24 @@ import logging
 import os
 from typing import List, Dict, Any
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from datetime import datetime
 
 class HTMLReport:
     """
     Generates an HTML report of code analysis results.
     """
 
-    def __init__(self, output_file: str, template_file: str = 'report-template.html'):
+    def __init__(self, output_file: str, template_file: str = 'report-template.html', project_name: str = 'Unnamed Project'):
         """
         Initializes the HTMLReport instance.
 
         :param output_file: The path to the output HTML file.
         :param template_file: The path to the HTML template file.
+        :param project_name: The name of the project being analyzed.
         """
         self.output_file = output_file
+        self.project_name = project_name
+        self.scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.report_data: List[Dict[str, Any]] = []
         self.env = Environment(
             loader=FileSystemLoader(searchpath=os.path.dirname(template_file) or '.'),
@@ -47,7 +51,11 @@ class HTMLReport:
         """
         try:
             logging.info("Generating HTML report...")
-            output_from_parsed_template = self.template.render(files=self.report_data)
+            output_from_parsed_template = self.template.render(
+                project_name=self.project_name,
+                scan_time=self.scan_time,
+                files=self.report_data
+            )
             with open(self.output_file, 'w', encoding='utf-8') as f:
                 f.write(output_from_parsed_template)
             logging.info(f"HTML report saved to {self.output_file}")

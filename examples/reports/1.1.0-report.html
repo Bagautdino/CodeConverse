@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Code Analysis Report - ai-sast-tool</title>
+    <style>
+        /* Add your CSS styles here */
+        .severity-CRITICAL { background-color: #ff4d4d; }
+        .severity-HIGH { background-color: #ff944d; }
+        .severity-MEDIUM { background-color: #ffff66; }
+        .severity-LOW { background-color: #b3ff66; }
+        .severity-INFO { background-color: #d9d9d9; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #dddddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .collapsible { cursor: pointer; }
+        .content { display: none; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <h1>Code Analysis Report</h1>
+    <h2>Project: ai-sast-tool</h2>
+    <p>Scan Time: 2024-09-14 13:45:45</p>
+    
+        <div>
+            <h3 class="collapsible">./main.py</h3>
+            <div class="content">
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Line Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr class="severity-MEDIUM">
+                                    <td>MEDIUM</td>
+                                    <td>Hardcoded project name extraction. Consider using a configuration file or command-line argument for more flexibility.</td>
+                                    <td>18</td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./tests/test_html_report.py</h3>
+            <div class="content">
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Line Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr class="severity-INFO">
+                                    <td>INFO</td>
+                                    <td>The test case does not verify the report&#39;s contents thoroughly. It only checks for the presence of certain strings, but does not validate the overall structure and correctness of the report.</td>
+                                    <td>15</td>
+                                </tr>
+                            
+                                <tr class="severity-INFO">
+                                    <td>INFO</td>
+                                    <td>The test case does not handle potential exceptions that may occur when generating the report or reading the output file.</td>
+                                    <td>15</td>
+                                </tr>
+                            
+                                <tr class="severity-INFO">
+                                    <td>INFO</td>
+                                    <td>The test case uses a hardcoded file name for the output file. This may cause issues if multiple tests are run concurrently.</td>
+                                    <td>5</td>
+                                </tr>
+                            
+                                <tr class="severity-INFO">
+                                    <td>INFO</td>
+                                    <td>The test case does not verify that the report file is deleted after the test is completed. Although the tearDown method is implemented, it&#39;s not explicitly tested.</td>
+                                    <td>10</td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./tests/__init__.py</h3>
+            <div class="content">
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Line Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr class="severity-MEDIUM">
+                                    <td>MEDIUM</td>
+                                    <td>Potential security risk due to missing import statement for testing library</td>
+                                    <td>None</td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./tests/test_code_analyzer.py</h3>
+            <div class="content">
+                
+                    <p>No issues found.</p>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./analyzer/config.py</h3>
+            <div class="content">
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Line Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr class="severity-HIGH">
+                                    <td>HIGH</td>
+                                    <td>Hardcoded sensitive information (API key names) in the code</td>
+                                    <td>2</td>
+                                </tr>
+                            
+                                <tr class="severity-MEDIUM">
+                                    <td>MEDIUM</td>
+                                    <td>Environment variable &#39;GROQ_API_KEY&#39; is not checked for existence before access</td>
+                                    <td>10</td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./analyzer/analyzer.py</h3>
+            <div class="content">
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Line Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr class="severity-MEDIUM">
+                                    <td>MEDIUM</td>
+                                    <td>Potential secret exposure: hardcoded tokens</td>
+                                    <td>23</td>
+                                </tr>
+                            
+                                <tr class="severity-MEDIUM">
+                                    <td>MEDIUM</td>
+                                    <td>Potential file path injection vulnerability</td>
+                                    <td>1</td>
+                                </tr>
+                            
+                                <tr class="severity-MEDIUM">
+                                    <td>MEDIUM</td>
+                                    <td>Potential file encoding vulnerability</td>
+                                    <td>10</td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./analyzer/__init__.py</h3>
+            <div class="content">
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Line Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr class="severity-INFO">
+                                    <td>INFO</td>
+                                    <td>No significant vulnerabilities detected.</td>
+                                    <td>None</td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    
+        <div>
+            <h3 class="collapsible">./analyzer/report.py</h3>
+            <div class="content">
+                
+                    <p>No issues found.</p>
+                
+            </div>
+        </div>
+    
+    <script>
+        // JavaScript for collapsible sections
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
