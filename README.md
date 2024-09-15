@@ -224,7 +224,7 @@ CodeConverse is modular, consisting of:
 [build]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml
 [build-img]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml/badge.svg?branch=master
 [license]: https://github.com/Bagautdino/ai-sast-tool/blob/main/LICENSE
-[license-img]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-img]: https://img.shields.io/badge/License-Apache%20License-blue.svg
 [issues]: https://github.com/Bagautdino/ai-sast-tool/issues
 [issues-img]: https://img.shields.io/github/issues/Bagautdino/ai-sast-tool.svg
 [docs]: https://github.com/Bagautdino/ai-sast-tool/wiki
