@@ -1,100 +1,227 @@
 # CodeConverse
 
-<img src="./img/logo.png" alt="Logo" width="300" height="300" style="display:block; margin: 0 auto;">
+<div align="center">
+  <img src="./img/logo.png" alt="CodeConverse Logo" width="200">
 
-**CodeConverse** is a cutting-edge code analysis tool that leverages the GROQ API to detect vulnerabilities and generate concise HTML reports. It supports a variety of programming languages and streamlines the vulnerability assessment process.
+  [![GitHub Release][release-img]][release]
+  [![Build Status][build-img]][build]
+  [![License: MIT][license-img]][license]
+  [![GitHub Issues][issues-img]][issues]
 
-## Supported File Types
+</div>
 
-CodeConverse can analyze source code files in the following languages:
+**CodeConverse** is an advanced AI-powered Static Application Security Testing (SAST) tool that leverages the GROQ API to detect vulnerabilities, secrets, and code quality issues in your source code. It supports multiple programming languages and generates comprehensive HTML reports, streamlining your vulnerability assessment process.
 
-- Python: `.py`
-- JavaScript: `.js`
-- Java: `.java`
-- C/C++: `.cpp`, `.c`
-- C#: `.cs`
-- TypeScript: `.ts`
+---
 
-## Reports
+## Table of Contents
 
-Generated reports are in HTML format for easy viewing in web browsers.
+- [Features](#features)
+- [Supported Languages](#supported-languages)
+- [Quick Start](#quick-start)
+  - [Installation](#installation)
+    - [Local Installation](#local-installation)
+    - [Docker Usage](#docker-usage)
+  - [Configuration](#configuration)
+- [Usage](#usage)
+  - [Command-Line Arguments](#command-line-arguments)
+  - [Examples](#examples)
+- [Reports](#reports)
+- [Logging](#logging)
+- [Architecture](#architecture)
+- [Limitations](#limitations)
+---
 
-## Configuration
+## Features
 
-Ensure that your API configuration is set up correctly before launching the program. API tokens should be defined in `config.py`.
+- **AI-Powered Analysis**: Utilize the GROQ API for advanced static code analysis.
+- **Multi-Language Support**: Analyze code written in Python, JavaScript, Java, C/C++, C#, and TypeScript.
+- **Detailed Reports**: Generate comprehensive HTML reports with severity levels, issue descriptions, and line numbers.
+- **Customizable Settings**: Configure analysis parameters such as retries, timeouts, and logging levels.
+- **Easy Integration**: Run locally or integrate into CI/CD pipelines using Docker.
 
-### Example Configuration (`config.py`):
+---
 
-    tokens = [
-        # List of API tokens
-    ]
+## Supported Languages
 
-    GROQ_API_KEY = "GROQ_API_KEY"  # include via environment variables
+CodeConverse can analyze source code files with the following extensions:
 
-## Getting Started
+- **Python**: `.py`
+- **JavaScript**: `.js`
+- **Java**: `.java`
+- **C/C++**: `.c`, `.cpp`
+- **C#**: `.cs`
+- **TypeScript**: `.ts`
 
-### Prerequisites
+For a complete list of supported languages and file types, see the [Scanning Coverage](#supported-languages) section.
 
-- Python 3.x
-- Access to the GROQ API
+---
 
-### Local Installation
+## Quick Start
 
-Clone the repository and install dependencies:
+### Installation
 
-    git clone https://github.com/yourusername/CodeConverse.git
-    cd CodeConverse
-    pip install -r requirements.txt
+#### Local Installation
 
-### Docker Usage
+1. **Clone the Repository**
 
-Create a job for GitHub Actions or GitLab CI using the Docker image:
+   ```bash
+   git clone https://github.com/Bagautdino/CodeConverse.git
+   cd CodeConverse
+   ```
 
-    ayvazbudapeshtov/ai-sast-tool:1.0.0
+2. **Create a Virtual Environment (Optional but Recommended)**
 
-### Usage
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   ```
 
-To start analyzing code:
+3. **Install Dependencies**
 
-    python main.py /path/to/source/code --output report.html --log-level INFO
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+#### Docker Usage
+
+Pull the Docker image to integrate CodeConverse into your CI/CD pipeline:
+
+```bash
+docker pull ayvazbudapeshtov/ai-sast-tool:1.1.1
+```
+
+---
+
+### Configuration
+
+Before running CodeConverse, set up your API configuration.
+
+#### Setting Up Environment Variables
+
+It's recommended to use environment variables for sensitive information like API tokens.
+
+1. **Set the GROQ API Key**
+
+   ```bash
+   export GROQ_API_KEY="your_groq_api_key"
+   ```
+
+2. **Set Additional API Tokens (If Required)**
+
+   ```bash
+   export GROQ_API_TOKENS="token1,token2,token3"
+   ```
+
+Alternatively, you can create a `config.py` file in the `analyzer` directory:
+
+```python
+# analyzer/config.py
+
+import os
+
+tokens = os.getenv("GROQ_API_TOKENS", "").split(",")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+```
+
+---
+
+## Usage
+
+Run CodeConverse using the `main.py` script or the Docker image.
 
 ### Command-Line Arguments
 
-- `directory`: Path to the source code directory.
-- `--output`: Filename for the HTML report. Default is `report.html`.
-- `--max-retries`: Max attempts for API requests. Default is `5`.
-- `--timeout`: Timeout for API requests in seconds. Default is `20.0`.
-- `--log-level`: Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`). Default is `INFO`.
+- **`directory`**: Path to the source code directory (default: current directory `.`).
+- **`--output`**: Filename for the HTML report (default: `report.html`).
+- **`--max-retries`**: Max attempts for API requests (default: `5`).
+- **`--timeout`**: Timeout for API requests in seconds (default: `20.0`).
+- **`--log-level`**: Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`) (default: `INFO`).
 
-### Example
+### Examples
 
-Analyze the `src/` directory with debug logging and save the report to `vulnerability_report.html`:
+- **Analyze a Specific Directory**
 
-    python main.py src/ --output vulnerability_report.html --log-level DEBUG
+  ```bash
+  python main.py /path/to/your/project --output my_report.html --log-level DEBUG
+  ```
+
+- **Analyze the Current Directory**
+
+  ```bash
+  python main.py
+  ```
+
+- **Using Docker**
+
+  ```bash
+  docker run -v /path/to/your/project:/app/project ayvazbudapeshtov/ai-sast-tool:1.1.1 python main.py /app/project
+  ```
+
+---
+
+## Reports
+
+Generated reports are in HTML format, providing:
+
+- **Project Name**: Automatically extracted from the directory name.
+- **Scan Time**: Timestamp of when the scan was performed.
+- **Detailed Issues**: Severity levels, descriptions, and line numbers.
+- **Interactive Elements**: Collapsible sections for each file and color-coded severity levels.
+
+### Sample Report
+
+<details>
+<summary>Click to view sample report screenshot</summary>
+
+![Sample Report](./img/sample-report.png)
+
+</details>
+
+---
 
 ## Logging
 
-CodeConverse supports multiple logging levels for detailed diagnostics:
+CodeConverse supports multiple logging levels:
 
-- `DEBUG`: Detailed debugging information.
-- `INFO`: Key events and results.
-- `WARNING`: Potential issues.
-- `ERROR`: Runtime errors.
-- `CRITICAL`: Critical issues.
+- **DEBUG**: Detailed debugging information.
+- **INFO**: General events and milestones.
+- **WARNING**: Indications of potential issues.
+- **ERROR**: Errors that occurred during execution.
+- **CRITICAL**: Severe errors causing premature termination.
 
-Logs are output to the console by default.
+Logs are written to both the console and a log file (`code_analyzer.log`).
+
+---
 
 ## Architecture
 
-The program is modular, comprising:
+CodeConverse is modular, consisting of:
 
-- **Analyzer**: Processes files and interfaces with the API.
-- **HTMLReport**: Generates HTML format reports.
-- **Config**: Manages configuration data.
+- **`CodeAnalyzer`**: Scans files, interacts with the GROQ API, and processes analysis results.
+- **`HTMLReport`**: Generates comprehensive HTML reports using Jinja2 templates.
+- **`config.py`**: Manages configuration settings and API tokens.
+- **`main.py`**: Entry point script handling argument parsing and orchestrating the analysis.
 
-This modular design facilitates future expansions and modifications.
+---
 
 ## Limitations
 
-- Internet connection is required for API access.
-- There is a limit on the size of code per request; code is segmented into 5000-character blocks for API processing.
+- **Internet Connection Required**: Necessary for accessing the GROQ API.
+- **API Rate Limits**: Subject to GROQ API rate limits; retries are handled automatically.
+- **Code Size Limitations**: Files are split into 5000-character chunks due to API constraints.
+- **Language Support**: Limited to specified programming languages.
+
+---
+
+[release]: https://github.com/Bagautdino/ai-sast-tool/releases
+[release-img]: https://img.shields.io/github/release/Bagautdino/ai-sast-tool.svg?logo=github
+[build]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml
+[build-img]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml/badge.svg?branch=master
+[license]: https://github.com/Bagautdino/ai-sast-tool/blob/master/LICENSE
+[license-img]: https://img.shields.io/badge/License-Apache%20License-blue.svg
+[issues]: https://github.com/Bagautdino/ai-sast-tool/issues
+[issues-img]: https://img.shields.io/github/issues/Bagautdino/ai-sast-tool.svg
+[docs]: https://github.com/Bagautdino/ai-sast-tool/wiki
+[discussions]: https://github.com/Bagautdino/ai-sast-tool/discussions
+[code-of-conduct]: https://github.com/Bagautdino/ai-sast-tool/blob/master/CODE_OF_CONDUCT.md
