@@ -102,7 +102,7 @@ class CodeAnalyzer:
     def analyze(self, html_report) -> None:
         for root, _, files in os.walk(self.directory):
             for filename in files:
-                if filename.endswith((".py", ".js", ".java", ".cpp", ".c", ".cs", ".ts")):
+                if filename.endswith((".py", ".js", ".java", ".cpp", ".c", ".cs", ".ts", ".php")):
                     file_path = os.path.join(root, filename)
                     current_token = self.get_next_token()
                     logging.info(f"Analyzing file: {file_path}")
