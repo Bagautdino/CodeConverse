@@ -132,7 +132,7 @@ venv.bak/
 
 
 code_analyzer.log
-
+report.html
 *.pyc
 .DS_Store
 # Spyder project settings
