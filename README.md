@@ -215,7 +215,7 @@ CodeConverse is modular, consisting of:
 ---
 
 [release]: https://github.com/Bagautdino/CodeConverse/releases
-[release-img]: https://img.shields.io/github/release/Bagautdino/code_converse.svg?logo=github
+[release-img]: https://img.shields.io/github/release/Bagautdino/CodeConverse.svg?logo=github
 [build]: https://github.com/Bagautdino/CodeConverse/actions/workflows/build-sign-push.yml
 [build-img]: https://github.com/Bagautdino/CodeConverse/actions/workflows/build-sign-push.yml/badge.svg?branch=master
 [license]: https://github.com/Bagautdino/CodeConverse/blob/master/LICENSE
