@@ -3,59 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Code Analysis Report - {{ project_name }}</title>
-    <!-- Include Bootstrap CSS via CDN -->
+    <!-- Подключение Bootstrap CSS через CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
-        /* Custom CSS styles */
+        /* Пользовательские стили CSS */
+
+        /* Стили фона */
+        body {
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         .severity-CRITICAL { background-color: #ff4d4d; }
         .severity-HIGH { background-color: #ff944d; }
         .severity-MEDIUM { background-color: #ffff66; }
         .severity-LOW { background-color: #b3ff66; }
         .severity-INFO { background-color: #d9d9d9; }
+
         .collapsible {
             cursor: pointer;
             margin-bottom: 0;
         }
+
         .content {
             display: none;
             overflow: hidden;
             margin-bottom: 20px;
         }
+
         .severity-label {
             font-weight: bold;
             color: #fff;
             padding: 2px 6px;
             border-radius: 4px;
         }
-        /* Adjust background colors for severity labels */
+
+        /* Настройка цветов для меток уровней серьёзности */
         .severity-label.CRITICAL { background-color: #d9534f; }
         .severity-label.HIGH { background-color: #f0ad4e; }
         .severity-label.MEDIUM { background-color: #ffc107; }
         .severity-label.LOW { background-color: #5bc0de; }
         .severity-label.INFO { background-color: #5cb85c; }
-        /* Style for the logo */
+
+        /* Стиль для логотипа */
         .logo {
             max-width: 200px;
             margin-bottom: 20px;
         }
-        /* Table styles */
+
+        /* Стили таблицы */
         table {
             margin-bottom: 20px;
         }
-        /* Footer style */
+
+        /* Стиль нижнего колонтитула */
         footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: auto;
             padding: 20px;
             background-color: #f8f9fa;
+        }
+
+        /* Стили карточек */
+        .card {
+            margin-bottom: 20px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-header {
+            background-color: transparent;
+            border-bottom: none;
+        }
+
+        /* Стили кнопок */
+        .btn-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Tool Logo -->
+        <!-- Логотип инструмента -->
         <div class="text-center">
-            <img src="img/logo.png" alt="Tool Logo" class="logo">
+            <img src="./img/logo.png" alt="Tool Logo" class="logo">
         </div>
 
         <h1 class="text-center">Code Analysis Report</h1>
@@ -102,15 +141,15 @@
         {% endfor %}
 
         <footer>
-            <p>&copy; {{ current_year }} AI-SAST-TOOL.</p>
+            <p>&copy; {{ current_year }} CodeConverse</p>
         </footer>
     </div>
 
-    <!-- Include jQuery and Bootstrap JS via CDN -->
+    <!-- Подключение jQuery и Bootstrap JS через CDN -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script>
-        // JavaScript for collapsible sections
+        // JavaScript для секций с возможностью сворачивания
         $(document).ready(function(){
             $(".collapsible").click(function(){
                 $(this).next(".content").slideToggle();
