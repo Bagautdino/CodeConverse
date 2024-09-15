@@ -18,14 +18,14 @@ jobs:
     # :param container: Specifies a container to run the job in
     container:
       # :param image: Docker image to use as the container environment
-      image: ayvazbudapeshtov/ai-sast-tool:1.1.1
+      image: ayvazbudapeshtov/code_converse:1.1.1
     steps:
     # Step to check out the repository code
     - uses: actions/checkout@v4
 
-    - name: Run ai-sast-tool
+    - name: Run code_converse
       # :param working-directory: The working directory inside the container where the command will be executed
-      working-directory: /ai-sast-tool
+      working-directory: /code_converse
       # :param run: The command to execute within the container
       run: python3 main.py $GITHUB_WORKSPACE
       env:
@@ -38,7 +38,7 @@ jobs:
           # :param name: The name of the artifact to upload
           name: report
           # :param path: The file path of the artifact to upload
-          path: /ai-sast-tool/report.html
+          path: /code_converse/report.html
 
 # The following job is commented out and can be enabled if needed
 # ngrok-up:

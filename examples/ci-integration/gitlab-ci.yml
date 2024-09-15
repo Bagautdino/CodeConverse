@@ -13,17 +13,17 @@ ai sast scan:
   # :param stage: Specifies the stage this job runs in
   stage: ai-sast-scan
   # :param image: Docker image to use for this job
-  image: ayvazbudapeshtov/ai-sast-tool:1.1.1
+  image: ayvazbudapeshtov/code_converse:1.1.1
   # :param script: Commands to execute during the job
   script:
-    # :param Running AI-SAST-Tool
+    # :param Running code_converse
     # Execute the AI SAST tool, pointing it to the project directory
-    - python3 /ai-sast-tool/main.py "$CI_PROJECT_DIR"
+    - python3 /code_converse/main.py "$CI_PROJECT_DIR"
   # :param artifacts: Define files to be uploaded after the job
   artifacts:
     # :param paths: List of paths to include in the artifact archive
     paths:
-      - /ai-sast-tool/report.html
+      - /code_converse/report.html
     # :param when: Specify when to upload artifacts (on_success, on_failure, always)
     when: always
     # :param expire_in: How long to keep the artifacts before they expire
