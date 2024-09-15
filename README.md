@@ -218,10 +218,10 @@ CodeConverse is modular, consisting of:
 [release-img]: https://img.shields.io/github/release/Bagautdino/ai-sast-tool.svg?logo=github
 [build]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml
 [build-img]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml/badge.svg?branch=master
-[license]: https://github.com/Bagautdino/ai-sast-tool/blob/main/LICENSE
+[license]: https://github.com/Bagautdino/ai-sast-tool/blob/master/LICENSE
 [license-img]: https://img.shields.io/badge/License-Apache%20License-blue.svg
 [issues]: https://github.com/Bagautdino/ai-sast-tool/issues
 [issues-img]: https://img.shields.io/github/issues/Bagautdino/ai-sast-tool.svg
 [docs]: https://github.com/Bagautdino/ai-sast-tool/wiki
 [discussions]: https://github.com/Bagautdino/ai-sast-tool/discussions
-[code-of-conduct]: https://github.com/Bagautdino/ai-sast-tool/blob/main/CODE_OF_CONDUCT.md
+[code-of-conduct]: https://github.com/Bagautdino/ai-sast-tool/blob/master/CODE_OF_CONDUCT.md
