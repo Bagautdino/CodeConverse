@@ -24,6 +24,15 @@ CALLS = 5
 PERIOD = 1
 
 def retry(exceptions, tries=3, delay=1, backoff=2):
+    """
+    Decorator that retries a function if specified exceptions occur.
+
+    :param exceptions: Exception or tuple of exceptions to catch and retry upon.
+    :param tries: Maximum number of attempts before giving up.
+    :param delay: Initial delay between retries in seconds.
+    :param backoff: Multiplier applied to delay between retries.
+    :return: Decorated function with retry logic.
+    """
     def decorator_retry(func):
         @functools.wraps(func)
         def wrapper_retry(*args, **kwargs):
@@ -41,18 +50,42 @@ def retry(exceptions, tries=3, delay=1, backoff=2):
     return decorator_retry
 
 class CodeAnalyzer:
+    """
+    Analyzes code files for vulnerabilities using the GROQ API.
+    """
+
     def __init__(self, directory: str, max_retries: int = 5, timeout: float = 20.0):
+        """
+        Initializes the CodeAnalyzer.
+
+        :param directory: The root directory containing code files to analyze.
+        :param max_retries: Maximum number of retries for API requests.
+        :param timeout: Timeout for API requests in seconds.
+        """
         self.directory = directory
         self.token_cycle = cycle(tokens)
         self.client = Groq(max_retries=max_retries, timeout=timeout)
 
     def get_next_token(self) -> str:
+        """
+        Retrieves the next token from the token cycle.
+
+        :return: Next API token as a string.
+        """
         return next(self.token_cycle)
 
     @sleep_and_retry
     @limits(calls=CALLS, period=PERIOD)
     @retry((HTTPError, ConnectionError, Timeout), tries=3)
     def process_code(self, file_path: str, model_token: str, content: str) -> str:
+        """
+        Processes a chunk of code by sending it to the GROQ API for analysis.
+
+        :param file_path: Path to the code file being processed.
+        :param model_token: The model token for the GROQ API.
+        :param content: The code content to be analyzed.
+        :return: The response from the API as a string.
+        """
         try:
             logging.info(f"Processing {file_path} with token {model_token}")
             chat_completion = self.client.chat.completions.create(
@@ -97,9 +130,21 @@ class CodeAnalyzer:
             return f"Error: {e}"
 
     def split_content(self, content: str, max_length: int = 5000) -> List[str]:
+        """
+        Splits the content into chunks of a specified maximum length.
+
+        :param content: The content to split.
+        :param max_length: The maximum length of each chunk.
+        :return: A list of content chunks.
+        """
         return [content[i:i + max_length] for i in range(0, len(content), max_length)]
 
     def analyze(self, html_report) -> None:
+        """
+        Analyzes code files in the directory and updates the HTML report.
+
+        :param html_report: An instance of HTMLReport to collect analysis results.
+        """
         for root, _, files in os.walk(self.directory):
             for filename in files:
                 if filename.endswith((".py", ".js", ".java", ".cpp", ".c", ".cs", ".ts")):
@@ -130,6 +175,13 @@ class CodeAnalyzer:
                     html_report.add_file_summary(file_path, summaries)
 
     def read_file(self, file_path: str) -> str:
+        """
+        Reads the content of a file with proper encoding handling.
+
+        :param file_path: The path to the file to read.
+        :return: The content of the file as a string.
+        :raises Exception: If the file cannot be read.
+        """
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 return file.read()
