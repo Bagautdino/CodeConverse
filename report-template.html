@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Code Analysis Report</title>
+    <title>Code Analysis Report - {{ project_name }}</title>
     <style>
         /* Add your CSS styles here */
         .severity-CRITICAL { background-color: #ff4d4d; }
@@ -19,9 +19,11 @@
 </head>
 <body>
     <h1>Code Analysis Report</h1>
+    <h2>Project: {{ project_name }}</h2>
+    <p>Scan Time: {{ scan_time }}</p>
     {% for file in files %}
         <div>
-            <h2 class="collapsible">{{ file.file_path }}</h2>
+            <h3 class="collapsible">{{ file.file_path }}</h3>
             <div class="content">
                 {% if file.issues %}
                     <table>
