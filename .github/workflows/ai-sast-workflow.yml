@@ -10,13 +10,13 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     container:
-      image: ayvazbudapeshtov/ai-sast-tool:dev
+      image: ayvazbudapeshtov/code_converse:dev
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     steps:
     - uses: actions/checkout@v4
-    - name: Run ai-sast-tool
+    - name: Run code_converse
       run: python3.12 main.py .
       env:
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}

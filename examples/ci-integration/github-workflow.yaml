@@ -1,0 +1,74 @@
+# Name of the GitHub Actions workflow
+name: ai-sast-workflow
+
+# Triggers for the workflow
+on:
+  # :param push: Trigger the workflow on push events
+  push:
+    # :param branches: List of branches to monitor for push events
+    branches:
+      - dev
+      - master
+
+jobs:
+  # Job name
+  scan:
+    # :param runs-on: The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # :param container: Specifies a container to run the job in
+    container:
+      # :param image: Docker image to use as the container environment
+      image: ayvazbudapeshtov/code_converse:1.1.2
+    steps:
+    # Step to check out the repository code
+    - uses: actions/checkout@v4
+
+    - name: Run code_converse
+      # :param working-directory: The working directory inside the container where the command will be executed
+      working-directory: /code_converse
+      # :param run: The command to execute within the container
+      run: python3 main.py $GITHUB_WORKSPACE
+      env:
+        # :param GROQ_API_KEY: The GROQ API key, provided via repository secrets
+        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+
+    - name: Upload report.html
+      uses: actions/upload-artifact@v4
+      with:
+          # :param name: The name of the artifact to upload
+          name: report
+          # :param path: The file path of the artifact to upload
+          path: /code_converse/report.html
+
+# The following job is commented out and can be enabled if needed
+# ngrok-up:
+#   # :param needs: Specifies that this job depends on the completion of the 'scan' job
+#   needs: scan
+#   # :param runs-on: The type of runner that the job will run on
+#   runs-on: ubuntu-latest
+#   steps:
+#   - name: Download report artifact
+#     uses: actions/download-artifact@v4
+#     with:
+#       # :param name: The name of the artifact to download
+#       name: report
+#       # :param path: The directory to download the artifact to
+#       path: ./
+
+#   - name: Run Nginx server
+#     run: |
+#       # Start an Nginx server to serve the report
+#       docker run -d --name nginx -v ${{ github.workspace }}:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine
+
+#   - name: Start ngrok
+#     run: |
+#       # Start ngrok to expose the Nginx server over the internet
+#       docker run -d --name ngrok -p 4040:4040 --link nginx \
+#         -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTH_TOKEN }} \
+#         ngrok/ngrok http --domain=snake-capable-roughy.ngrok-free.app nginx:80
+
+#   - name: Code Analysis URL
+#     run: echo "https://snake-capable-roughy.ngrok-free.app/report.html"
+
+#   - name: Sleep to keep server alive
+#     run: sleep 150

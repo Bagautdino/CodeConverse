@@ -88,7 +88,7 @@ For a complete list of supported languages and file types, see the [Scanning Cov
 Pull the Docker image to integrate CodeConverse into your CI/CD pipeline:
 
 ```bash
-docker pull ayvazbudapeshtov/ai-sast-tool:1.1.1
+docker pull ayvazbudapeshtov/code_converse:1.1.2
 ```
 
 ---
@@ -155,7 +155,7 @@ Run CodeConverse using the `main.py` script or the Docker image.
 - **Using Docker**
 
   ```bash
-  docker run -v /path/to/your/project:/app/project ayvazbudapeshtov/ai-sast-tool:1.1.1 python main.py /app/project
+  docker run -v /path/to/your/project:/app/project ayvazbudapeshtov/code_converse:1.1.2 python main.py /app/project
   ```
 
 ---
@@ -214,14 +214,14 @@ CodeConverse is modular, consisting of:
 
 ---
 
-[release]: https://github.com/Bagautdino/ai-sast-tool/releases
-[release-img]: https://img.shields.io/github/release/Bagautdino/ai-sast-tool.svg?logo=github
-[build]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml
-[build-img]: https://github.com/Bagautdino/ai-sast-tool/actions/workflows/build-sign-push.yml/badge.svg?branch=master
-[license]: https://github.com/Bagautdino/ai-sast-tool/blob/master/LICENSE
+[release]: https://github.com/Bagautdino/CodeConverse/releases
+[release-img]: https://img.shields.io/github/release/Bagautdino/CodeConverse.svg?logo=github
+[build]: https://github.com/Bagautdino/CodeConverse/actions/workflows/build-sign-push.yml
+[build-img]: https://github.com/Bagautdino/CodeConverse/actions/workflows/build-sign-push.yml/badge.svg?branch=master
+[license]: https://github.com/Bagautdino/CodeConverse/blob/master/LICENSE
 [license-img]: https://img.shields.io/badge/License-Apache%20License-blue.svg
-[issues]: https://github.com/Bagautdino/ai-sast-tool/issues
-[issues-img]: https://img.shields.io/github/issues/Bagautdino/ai-sast-tool.svg
-[docs]: https://github.com/Bagautdino/ai-sast-tool/wiki
-[discussions]: https://github.com/Bagautdino/ai-sast-tool/discussions
-[code-of-conduct]: https://github.com/Bagautdino/ai-sast-tool/blob/master/CODE_OF_CONDUCT.md
+[issues]: https://github.com/Bagautdino/CodeConverse/issues
+[issues-img]: https://img.shields.io/github/issues/Bagautdino/CodeConverse.svg
+[docs]: https://github.com/Bagautdino/CodeConverse/wiki
+[discussions]: https://github.com/Bagautdino/CodeConverse/discussions
+[code-of-conduct]: https://github.com/Bagautdino/CodeConverse/blob/master/CODE_OF_CONDUCT.md

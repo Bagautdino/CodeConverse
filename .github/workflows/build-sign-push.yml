@@ -47,7 +47,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool:${{ steps.image_tag.outputs.tag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/code_converse:${{ steps.image_tag.outputs.tag }}
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3.6.0
@@ -58,7 +58,7 @@ jobs:
         env:
           COSIGN_EXPERIMENTAL: 'true'
         run: |
-          cosign sign --yes ${{ secrets.DOCKERHUB_USERNAME }}/ai-sast-tool@${{ steps.build_and_push.outputs.digest }}
+          cosign sign --yes ${{ secrets.DOCKERHUB_USERNAME }}/code_converse@${{ steps.build_and_push.outputs.digest }}
 
       - name: Log out from Docker Hub
         run: docker logout

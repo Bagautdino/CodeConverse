@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Code Analysis Report - {{ project_name }}</title>
+    <title>Code Analysis Report - test_1</title>
     <!-- Подключение Bootstrap CSS через CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
@@ -98,21 +98,21 @@
         </div>
 
         <h1 class="text-center">Code Analysis Report</h1>
-        <h2 class="text-center">Project: {{ project_name }}</h2>
-        <p class="text-center">Scan Time: {{ scan_time }}</p>
+        <h2 class="text-center">Project: test_1</h2>
+        <p class="text-center">Scan Time: 2024-09-15 19:56:55</p>
         <hr>
 
-        {% for file in files %}
+        
             <div class="card">
                 <div class="card-header collapsible">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
-                            {{ file.file_path }}
+                            ../tests/test_1/index.php
                         </button>
                     </h5>
                 </div>
                 <div class="content card-body">
-                    {% if file.issues %}
+                    
                         <table class="table table-striped table-bordered">
                             <thead class="thead-dark">
                                 <tr>
@@ -122,26 +122,80 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for issue in file.issues %}
+                                
                                     <tr>
                                         <td>
-                                            <span class="severity-label {{ issue.severity }}">{{ issue.severity }}</span>
+                                            <span class="severity-label CRITICAL">CRITICAL</span>
                                         </td>
-                                        <td>{{ issue.description }}</td>
-                                        <td>{{ issue.line }}</td>
+                                        <td>Direct database credentials hardcoded in the code.</td>
+                                        <td>1</td>
                                     </tr>
-                                {% endfor %}
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label CRITICAL">CRITICAL</span>
+                                        </td>
+                                        <td>Using deprecated and insecure mysql_* functions.</td>
+                                        <td>3</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label HIGH">HIGH</span>
+                                        </td>
+                                        <td>SQL injection vulnerability in queries using direct variable interpolation.</td>
+                                        <td>4</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label HIGH">HIGH</span>
+                                        </td>
+                                        <td>SQL injection vulnerability in queries using direct variable interpolation.</td>
+                                        <td>8</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label HIGH">HIGH</span>
+                                        </td>
+                                        <td>SQL injection vulnerability in queries using direct variable interpolation.</td>
+                                        <td>12</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label HIGH">HIGH</span>
+                                        </td>
+                                        <td>SQL injection vulnerability in queries using direct variable interpolation.</td>
+                                        <td>16</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label MEDIUM">MEDIUM</span>
+                                        </td>
+                                        <td>Using addcslashes() instead of prepared statements for sanitization.</td>
+                                        <td>13</td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                            <span class="severity-label MEDIUM">MEDIUM</span>
+                                        </td>
+                                        <td>Using addcslashes() instead of prepared statements for sanitization.</td>
+                                        <td>17</td>
+                                    </tr>
+                                
                             </tbody>
                         </table>
-                    {% else %}
-                        <p>No issues found.</p>
-                    {% endif %}
+                    
                 </div>
             </div>
-        {% endfor %}
+        
 
         <footer>
-            <p>&copy; {{ current_year }} CodeConverse</p>
+            <p>&copy;  CodeConverse</p>
         </footer>
     </div>
 

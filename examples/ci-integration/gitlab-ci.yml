@@ -1,0 +1,32 @@
+# .gitlab-ci.yml
+
+# Define stages of the pipeline
+stages:
+  - ai-sast-scan
+
+# Global variables for the pipeline
+variables:
+  # :param GROQ_API_KEY: The GROQ API key, provided via CI/CD variables in GitLab project settings
+  GROQ_API_KEY: $GROQ_API_KEY
+
+ai sast scan:
+  # :param stage: Specifies the stage this job runs in
+  stage: ai-sast-scan
+  # :param image: Docker image to use for this job
+  image: ayvazbudapeshtov/code_converse:1.1.2
+  # :param script: Commands to execute during the job
+  script:
+    # :param Running code_converse
+    # Execute the AI SAST tool, pointing it to the project directory
+    - python3 /code_converse/main.py "$CI_PROJECT_DIR"
+  # :param artifacts: Define files to be uploaded after the job
+  artifacts:
+    # :param paths: List of paths to include in the artifact archive
+    paths:
+      - /code_converse/report.html
+    # :param when: Specify when to upload artifacts (on_success, on_failure, always)
+    when: always
+    # :param expire_in: How long to keep the artifacts before they expire
+    expire_in: 1
+  tags:
+    - sast-runner
