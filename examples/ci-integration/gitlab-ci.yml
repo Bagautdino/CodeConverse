@@ -13,7 +13,7 @@ ai sast scan:
   # :param stage: Specifies the stage this job runs in
   stage: ai-sast-scan
   # :param image: Docker image to use for this job
-  image: ayvazbudapeshtov/code_converse:1.1.1
+  image: ayvazbudapeshtov/code_converse:1.1.2
   # :param script: Commands to execute during the job
   script:
     # :param Running code_converse

@@ -88,7 +88,7 @@ For a complete list of supported languages and file types, see the [Scanning Cov
 Pull the Docker image to integrate CodeConverse into your CI/CD pipeline:
 
 ```bash
-docker pull ayvazbudapeshtov/code_converse:1.1.0
+docker pull ayvazbudapeshtov/code_converse:1.1.2
 ```
 
 ---
@@ -155,7 +155,7 @@ Run CodeConverse using the `main.py` script or the Docker image.
 - **Using Docker**
 
   ```bash
-  docker run -v /path/to/your/project:/app/project ayvazbudapeshtov/code_converse:1.1.0 python main.py /app/project
+  docker run -v /path/to/your/project:/app/project ayvazbudapeshtov/code_converse:1.1.2 python main.py /app/project
   ```
 
 ---

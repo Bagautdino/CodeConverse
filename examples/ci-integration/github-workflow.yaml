@@ -18,7 +18,7 @@ jobs:
     # :param container: Specifies a container to run the job in
     container:
       # :param image: Docker image to use as the container environment
-      image: ayvazbudapeshtov/code_converse:1.1.1
+      image: ayvazbudapeshtov/code_converse:1.1.2
     steps:
     # Step to check out the repository code
     - uses: actions/checkout@v4
