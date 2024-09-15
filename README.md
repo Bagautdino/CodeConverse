@@ -30,11 +30,6 @@
 - [Logging](#logging)
 - [Architecture](#architecture)
 - [Limitations](#limitations)
-- [FAQ](#faq)
-- [Community](#community)
-- [Contributing](#contributing)
-- [License](#license)
-
 ---
 
 ## Features
