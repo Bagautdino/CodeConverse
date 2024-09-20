@@ -41,7 +41,7 @@ def retry(exceptions, tries=3, delay=1, backoff=2):
                 try:
                     return func(*args, **kwargs)
                 except exceptions as e:
-                    logging.warning(f"{e}, Retrying in {_delay} seconds...")
+                    logging.warning(f"{e}, retrying in {_delay} seconds...")
                     time.sleep(_delay)
                     _tries -= 1
                     _delay *= backoff
@@ -53,6 +53,8 @@ class CodeAnalyzer:
     """
     Analyzes code files for vulnerabilities using the GROQ API.
     """
+
+    SUPPORTED_EXTENSIONS = (".py", ".js", ".java", ".cpp", ".c", ".cs", ".ts", ".php")
 
     def __init__(self, directory: str, max_retries: int = 5, timeout: float = 20.0):
         """
@@ -139,46 +141,14 @@ class CodeAnalyzer:
         """
         return [content[i:i + max_length] for i in range(0, len(content), max_length)]
 
-
-
-    def analyze(self, html_report) -> None:
+    def is_supported_file(self, filename: str) -> bool:
         """
-        Analyzes code files in the directory and updates the HTML report.
+        Checks if the file has a supported extension.
 
-        :param html_report: An instance of HTMLReport to collect analysis results.
+        :param filename: Name of the file.
+        :return: True if supported, False otherwise.
         """
-        for root, _, files in os.walk(self.directory):
-            for filename in files:
-                if filename.endswith((".py", ".js", ".java", ".cpp", ".c", ".cs", ".ts", ".php")):
-                    file_path = os.path.join(root, filename)
-                    current_token = self.get_next_token()
-                    logging.info(f"Analyzing file: {file_path}")
-
-
-                    try:
-                        content = self.read_file(file_path)
-                    except Exception as e:
-                        logging.error(f"Failed to read {file_path}: {e}")
-                        continue
-
-                    contents = self.split_content(content) if len(content) > 5000 else [content]
-
-                    summaries = []
-                    for content_chunk in contents:
-                        start_time = time.time()
-                        result = self.process_code(file_path, current_token, content_chunk)
-                        try:
-                            issues = json.loads(result).get('issues', [])
-                        except json.JSONDecodeError:
-                            logging.error(f"Failed to parse JSON response for {file_path}")
-                            issues = []
-                        summaries.extend(issues)
-
-                    # Combine issues from all chunks
-                    html_report.add_file_summary(file_path, summaries)
-
-
-
+        return filename.endswith(self.SUPPORTED_EXTENSIONS)
 
     def read_file(self, file_path: str) -> str:
         """
@@ -194,3 +164,61 @@ class CodeAnalyzer:
         except UnicodeDecodeError:
             with open(file_path, 'r', encoding='latin-1') as file:
                 return file.read()
+
+    def analyze(self, html_report) -> None:
+        """
+        Analyzes code files in the directory and updates the HTML report.
+
+        :param html_report: An instance of HTMLReport to collect analysis results.
+        """
+        for root, _, files in os.walk(self.directory):
+            for filename in files:
+                if not self.is_supported_file(filename):
+                    continue
+
+                file_path = os.path.join(root, filename)
+                current_token = self.get_next_token()
+                logging.info(f"Analyzing file: {file_path}")
+
+                try:
+                    content = self.read_file(file_path)
+                except Exception as e:
+                    logging.error(f"Failed to read {file_path}: {e}")
+                    continue
+
+                contents = self.split_content(content) if len(content) > 5000 else [content]
+                summaries = self.collect_issues(file_path, current_token, contents)
+                html_report.add_file_summary(file_path, summaries)
+
+    def collect_issues(self, file_path: str, token: str, contents: List[str]) -> List:
+        """
+        Processes content chunks and collects issues.
+
+        :param file_path: Path to the file being analyzed.
+        :param token: Token for processing.
+        :param contents: List of content chunks.
+        :return: List of issues found.
+        """
+        summaries = []
+        for content_chunk in contents:
+            result = self.process_code(file_path, token, content_chunk)
+            issues = self.parse_issues(result, file_path)
+            summaries.extend(issues)
+        return summaries
+
+    def parse_issues(self, result: str, file_path: str) -> List:
+        """
+        Parses the analysis result and extracts issues.
+
+        :param result: The analysis result as a string.
+        :param file_path: Path to the file being analyzed.
+        :return: List of issues extracted from the result.
+        """
+        try:
+            issues = json.loads(result).get('issues', [])
+            if not issues:
+                logging.info(f"{file_path}: No significant vulnerabilities detected.")
+            return issues
+        except json.JSONDecodeError:
+            logging.error(f"Failed to parse JSON response for {file_path}")
+            return []
