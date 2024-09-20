@@ -165,7 +165,6 @@ class CodeAnalyzer:
 
                     summaries = []
                     for content_chunk in contents:
-                        start_time = time.time()
                         result = self.process_code(file_path, current_token, content_chunk)
                         try:
                             issues = json.loads(result).get('issues', [])
