@@ -1,4 +1,5 @@
 # tests/test_code_analyzer.py
+# DEPRECATED since 1.1.2
 
 import unittest
 from unittest.mock import patch, MagicMock
