@@ -139,6 +139,8 @@ class CodeAnalyzer:
         """
         return [content[i:i + max_length] for i in range(0, len(content), max_length)]
 
+
+
     def analyze(self, html_report) -> None:
         """
         Analyzes code files in the directory and updates the HTML report.
@@ -151,6 +153,7 @@ class CodeAnalyzer:
                     file_path = os.path.join(root, filename)
                     current_token = self.get_next_token()
                     logging.info(f"Analyzing file: {file_path}")
+
 
                     try:
                         content = self.read_file(file_path)
@@ -173,6 +176,9 @@ class CodeAnalyzer:
 
                     # Combine issues from all chunks
                     html_report.add_file_summary(file_path, summaries)
+
+
+
 
     def read_file(self, file_path: str) -> str:
         """
