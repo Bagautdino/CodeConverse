@@ -7,6 +7,9 @@
   [![Build Status][build-img]][build]
   [![License: MIT][license-img]][license]
   [![GitHub Issues][issues-img]][issues]
+  [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Bagautdino_CodeConverse&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Bagautdino_CodeConverse)
+  [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Bagautdino_CodeConverse&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Bagautdino_CodeConverse)
+  
 
 </div>
 
